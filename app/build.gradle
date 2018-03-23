@@ -15,6 +15,16 @@ repositories {
 android {
 
     signingConfigs {
+        debugConfig {
+            try {
+                keyAlias 'androiddebugkey'
+                keyPassword 'android'
+                storeFile file('../misc/debug.keystore')
+                storePassword 'android'
+            } catch (ex) {
+                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
+            }
+        }
         releaseConfig {
             try {
                 keyAlias 'keydata.keystore'
@@ -47,33 +57,20 @@ android {
         debug {
             applicationIdSuffix ".debug"
 
-            shrinkResources false
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
             debuggable true
-
-            //For single file
-//            proguardFile 'litepal.pro'
-
-            //For all files
-            proguardFiles fileTree(dir: "rules", include: ["*.pro"]).asList().toArray()
-
-//            signingConfig signingConfigs.releaseConfig
-        }
-        release {
-            shrinkResources false
-            minifyEnabled false
-            debuggable false
 
             //For single file
 //            proguardFile 'aboutbox.pro'
 //            proguardFile 'androidviewanimations.pro'
 //            proguardFile 'admob.pro'
-//            proguardFile 'app.pro'
-//            proguardFile 'appcompat-v7.pro'
-//            proguardFile 'attributionpresenter.pro'
+            proguardFile 'app.pro'
+            proguardFile 'appcompat-v7.pro'
+            proguardFile 'attributionpresenter.pro'
 //            proguardFile 'bungee.pro'
 //            proguardFile 'cardview-v7.pro'
-//            proguardFile 'constraint-layout.pro'
+            proguardFile 'constraint-layout.pro'
 //            proguardFile 'contextmenu.pro'
 //            proguardFile 'cookiebar2.pro'
 //            proguardFile 'cyclemenu.pro'
@@ -93,7 +90,66 @@ android {
 //            proguardFile 'lottie.pro'
 //            proguardFile 'multicolortextview.pro'
 //            proguardFile 'nineoldandroids.pro'
-//            proguardFile 'package-dependent.pro'
+            proguardFile 'package-dependent.pro'
+//            proguardFile 'palette-v7.pro'
+//            proguardFile 'play-services-gcm.pro'
+//            proguardFile 'progresslayout.pro'
+//            proguardFile 'rc-library.pro'
+//            proguardFile 'rc-logger.pro'
+//            proguardFile 'rc-permission.pro'
+//            proguardFile 'recyclerview-v7.pro'
+//            proguardFile 'ribblemenu.pro'
+//            proguardFile 'scheduler.pro'
+//            proguardFile 'shaperipple.pro'
+//            proguardFile 'sherlock.pro'
+//            proguardFile 'sqlite.pro'
+//            proguardFile 'stickyindex.pro'
+//            proguardFile 'support-v4.pro'
+//            proguardFile 'updatechecker.pro'
+//            proguardFile 'verticalappintro.pro'
+//            proguardFile 'volley.pro'
+//            proguardFile 'wavesidebar.pro'
+
+            //For all files
+//            proguardFiles fileTree(dir: "rules", include: ["*.pro"]).asList().toArray()
+
+            signingConfig signingConfigs.debugConfig
+        }
+        release {
+            shrinkResources true
+            minifyEnabled true
+            debuggable true
+
+            //For single file
+//            proguardFile 'aboutbox.pro'
+//            proguardFile 'androidviewanimations.pro'
+//            proguardFile 'admob.pro'
+            proguardFile 'app.pro'
+            proguardFile 'appcompat-v7.pro'
+            proguardFile 'attributionpresenter.pro'
+//            proguardFile 'bungee.pro'
+//            proguardFile 'cardview-v7.pro'
+            proguardFile 'constraint-layout.pro'
+//            proguardFile 'contextmenu.pro'
+//            proguardFile 'cookiebar2.pro'
+//            proguardFile 'cyclemenu.pro'
+//            proguardFile 'design.pro'
+//            proguardFile 'easyrecyclerview.pro'
+//            proguardFile 'flexbox.pro'
+//            proguardFile 'flipview.pro'
+//            proguardFile 'gcm.pro'
+//            proguardFile 'glazyviewpager.pro'
+//            proguardFile 'glide.pro'
+//            proguardFile 'google-admob.pro'
+//            proguardFile 'google-play-services.pro'
+//            proguardFile 'gson.pro'
+//            proguardFile 'kotlin-stdlib-jre7.pro'
+//            proguardFile 'litepal.pro'
+//            proguardFile 'localechanger.pro'
+//            proguardFile 'lottie.pro'
+//            proguardFile 'multicolortextview.pro'
+//            proguardFile 'nineoldandroids.pro'
+            proguardFile 'package-dependent.pro'
 //            proguardFile 'palette-v7.pro'
 //            proguardFile 'play-services-gcm.pro'
 //            proguardFile 'progresslayout.pro'
@@ -211,7 +267,7 @@ dependencies {
 //    compile project(":glazyviewpager")
 //    compile project(":aboutbox")
 //    compile project(":contextmenu")
-//    compile project(":attributionpresenter")
+    compile project(":attributionpresenter")
 //    compile project(":sherlock")
 //    compile project(":verticalappintro")
 //    compile project(":shaperipple")

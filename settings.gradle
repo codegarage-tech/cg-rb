@@ -1,4 +1,4 @@
-include ':app'
+include ':app',
 //        ':ribblemenu',
 //        ':easyrecyclerview',
 //        ':wavesidebar',
@@ -6,7 +6,6 @@ include ':app'
 //        ':glazyviewpager',
 //        ':aboutbox',
 //        ':contextmenu',
-//        ':attributionpresenter',
 //        ':sherlock',
 //        ':verticalappintro',
 //        ':shaperipple',
@@ -23,6 +22,7 @@ include ':app'
 //        ':cyclemenu',
 //        ':lottie',
 //        ':progresslayout'
+':attributionpresenter'
 //':fillme',
 //':sugar',
 //':foldablelayout',
