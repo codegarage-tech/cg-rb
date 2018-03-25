@@ -3,6 +3,7 @@
     package="tech.codegarage.recyclebin">
 
     <application
+        android:name="tech.codegarage.recyclebin.application.RecycleBinApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

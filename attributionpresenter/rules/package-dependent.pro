@@ -11,3 +11,7 @@
 
 # Keep the BuildConfig
 -keep class tech.codegarage.quotes.BuildConfig { *; }
+
+# Realm
+# Additionally you need to keep your Realm Model classes as well
+ -keep class io.realm.examples.adapters.model.** { *; }

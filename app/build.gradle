@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 repositories {
     maven {
@@ -68,6 +69,7 @@ android {
             proguardFile 'app.pro'
             proguardFile 'appcompat-v7.pro'
             proguardFile 'attributionpresenter.pro'
+            proguardFile 'realm.pro'
 //            proguardFile 'bungee.pro'
 //            proguardFile 'cardview-v7.pro'
             proguardFile 'constraint-layout.pro'
@@ -127,6 +129,7 @@ android {
             proguardFile 'app.pro'
             proguardFile 'appcompat-v7.pro'
             proguardFile 'attributionpresenter.pro'
+            proguardFile 'realm.pro'
 //            proguardFile 'bungee.pro'
 //            proguardFile 'cardview-v7.pro'
             proguardFile 'constraint-layout.pro'
