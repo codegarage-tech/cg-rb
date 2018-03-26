@@ -57,7 +57,7 @@ public class RealmController {
     }
 
     //clear all objects from Tag.class
-    public void clearAll() {
+    public void clearAllTags() {
         realm.beginTransaction();
         realm.delete(Tag.class);
         realm.commitTransaction();
@@ -119,5 +119,9 @@ public class RealmController {
                 Log.d(TAG, "Tag data already exist.");
             }
         }
+    }
+
+    public void destroyRealm() {
+        realm.close();
     }
 }
