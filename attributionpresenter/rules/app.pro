@@ -12,6 +12,10 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
 
 # Activity, Application, Service, BroadcastReceiver
 # Exclude classes that can not be obfuscated on the system

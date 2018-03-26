@@ -62,6 +62,9 @@ android {
             minifyEnabled false
             debuggable true
 
+            //This default proguard is needed for avoiding NoSuchMethodException of realm
+            proguardFile getDefaultProguardFile('proguard-android.txt')
+
             //For single file
 //            proguardFile 'aboutbox.pro'
 //            proguardFile 'androidviewanimations.pro'
@@ -121,6 +124,9 @@ android {
             shrinkResources true
             minifyEnabled true
             debuggable true
+
+            //This default proguard is needed for avoiding NoSuchMethodException of realm
+            proguardFile getDefaultProguardFile('proguard-android.txt')
 
             //For single file
 //            proguardFile 'aboutbox.pro'
