@@ -2,14 +2,9 @@ package tech.codegarage.recyclebin.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import tech.codegarage.recyclebin.R;
 import tech.codegarage.recyclebin.model.RealmController;
-import tech.codegarage.recyclebin.model.Tag;
 
 /**
  * @author Md. Rashadul Alam
@@ -39,47 +34,16 @@ public class SplashActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-
-        //get realm instance
-        realmController = RealmController.with(this);
-
-        setRealmData();
-
-        List<Tag> tags = realmController.getTags();
-        for (int i = 0; i < tags.size(); i++) {
-            Log.d(TAG, "tags " + i + " is: " + tags.get(i).toString());
-        }
+        //get realm data
+        initRealmData();
 
 //        Log.d(TAG, "TAG-1");
 //        initSplashUI();
     }
 
-    private void setRealmData() {
-
-        ArrayList<Tag> tags = new ArrayList<>();
-
-        Tag tag = new Tag(1 + System.currentTimeMillis(), "Video");
-        tags.add(tag);
-
-        tag = new Tag(2 + System.currentTimeMillis(), "Audio");
-        tags.add(tag);
-
-        tag = new Tag(3 + System.currentTimeMillis(), "Image");
-        tags.add(tag);
-
-        tag = new Tag(4 + System.currentTimeMillis(), "Document");
-        tags.add(tag);
-
-        for (Tag mTag : tags) {
-            // Persist your data easily
-            if (realmController.getTag(mTag.getName()) == null) {
-                realmController.getRealm().beginTransaction();
-                realmController.getRealm().copyToRealm(mTag);
-                realmController.getRealm().commitTransaction();
-            } else {
-                Log.d(TAG, "Data already exist.");
-            }
-        }
+    private void initRealmData() {
+        realmController = RealmController.with(this);
+        realmController.setTags();
     }
 
 //    private void initSplashUI() {

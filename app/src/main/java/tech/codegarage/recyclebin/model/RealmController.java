@@ -4,7 +4,9 @@ package tech.codegarage.recyclebin.model;
 import android.app.Activity;
 import android.app.Application;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -12,6 +14,7 @@ import io.realm.RealmResults;
 
 public class RealmController {
 
+    private static String TAG = RealmController.class.getSimpleName();
     private static RealmController instance;
     private final Realm realm;
 
@@ -74,6 +77,14 @@ public class RealmController {
         return realm.where(Tag.class).equalTo("name", name).findFirst();
     }
 
+    public boolean isTagExist(String name) {
+        if (realm.where(Tag.class).equalTo("name", name).findFirst() != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     //check if Tag.class is empty
     public boolean hasTags() {
         return realm.where(Tag.class).findAll().size() > 0;
@@ -86,5 +97,27 @@ public class RealmController {
                 .or()
                 .contains("title", "Realm")
                 .findAll();
+    }
+
+    public void setTags() {
+        ArrayList<Tag> tags = new ArrayList<>();
+        Tag tag = new Tag("Video");
+        tags.add(tag);
+        tag = new Tag("Audio");
+        tags.add(tag);
+        tag = new Tag("Image");
+        tags.add(tag);
+        tag = new Tag("Document");
+        tags.add(tag);
+
+        for (Tag mTag : tags) {
+            if (!isTagExist(mTag.getName())) {
+                getRealm().beginTransaction();
+                getRealm().copyToRealm(mTag);
+                getRealm().commitTransaction();
+            } else {
+                Log.d(TAG, "Tag data already exist.");
+            }
+        }
     }
 }
