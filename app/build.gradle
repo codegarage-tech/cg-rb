@@ -250,7 +250,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //test libraries
 //    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -259,47 +259,47 @@ dependencies {
 //    testCompile 'junit:junit:4.12'
 
     //gradle libraries
-    compile "com.android.support:appcompat-v7:$supportlibraryVersion"
-    compile "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
-//    compile "com.google.code.gson:gson:$gsonVersion"
+    implementation "com.android.support:appcompat-v7:$supportlibraryVersion"
+    implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
+//    implementation "com.google.code.gson:gson:$gsonVersion"
 //    compile "com.android.support:multidex:$multiDexVersion"
 
-    compile 'com.reversecoder.permission:rc-permission:1.0.1-SNAPSHOT'
-    compile 'com.reversecoder.library:rc-library:1.0.1-SNAPSHOT'
-//    compile 'com.reversecoder.logger:rc-logger:1.0.1-SNAPSHOT'
+    implementation 'com.reversecoder.permission:rc-permission:1.0.1-SNAPSHOT'
+    implementation 'com.reversecoder.library:rc-library:1.0.1-SNAPSHOT'
+//    implementation 'com.reversecoder.logger:rc-logger:1.0.1-SNAPSHOT'
 
     //library projects
-//    compile project(":ribblemenu")
-//    compile project(":easyrecyclerview")
-//    compile project(":stickyindex")
-//    compile project(":wavesidebar")
-//    compile project(":glazyviewpager")
-//    compile project(":aboutbox")
-//    compile project(":contextmenu")
-    compile project(":attributionpresenter")
-//    compile project(":sherlock")
-//    compile project(":verticalappintro")
-//    compile project(":shaperipple")
-//    compile project(":cookiebar2")
-//    compile project(":localechanger")
-//    compile project(":updatechecker")
-//    compile project(":multicolortextview")
-//    compile project(":flipview")
-//    compile project(":gcm")
-//    compile project(":androidviewanimations")
-//    compile project(":litepal")
-//    compile project(":bungee")
-//    compile project(":scheduler")
-//    compile project(":cyclemenu")
-//    compile project(":lottie")
-//    compile project(":progresslayout")
-//    compile project(":fillme")
-//    compile project(":sugar")
-//    compile project(":foldablelayout")
-//    compile project(":tutors")
-//    compile project(":kenburnsview")
-//    compile project(":arclayout")
-//    compile project(":cardslider")
-//    compile project(":maskprogressview")
-//    compile project(":fabulousfilter")
+//    implementation project(":ribblemenu")
+//    implementation project(":easyrecyclerview")
+//    implementation project(":stickyindex")
+//    implementation project(":wavesidebar")
+//    implementation project(":glazyviewpager")
+//    implementation project(":aboutbox")
+//    implementation project(":contextmenu")
+    implementation project(":attributionpresenter")
+//    implementation project(":sherlock")
+//    implementation project(":verticalappintro")
+//    implementation project(":shaperipple")
+//    implementation project(":cookiebar2")
+//    implementation project(":localechanger")
+//    implementation project(":updatechecker")
+//    implementation project(":multicolortextview")
+//    implementation project(":flipview")
+//    implementation project(":gcm")
+//    implementation project(":androidviewanimations")
+//    implementation project(":litepal")
+//    implementation project(":bungee")
+//    implementation project(":scheduler")
+//    implementation project(":cyclemenu")
+//    implementation project(":lottie")
+//    implementation project(":progresslayout")
+//    implementation project(":fillme")
+//    implementation project(":sugar")
+//    implementation project(":foldablelayout")
+//    implementation project(":tutors")
+//    implementation project(":kenburnsview")
+//    implementation project(":arclayout")
+//    implementation project(":cardslider")
+//    implementation project(":maskprogressview")
+//    implementation project(":fabulousfilter")
 }

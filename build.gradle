@@ -12,7 +12,7 @@ buildscript {
 		google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.1.0'
         classpath "io.realm:realm-gradle-plugin:${realmVersion}"
 
 //        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
@@ -59,6 +59,7 @@ allprojects {
     ext.glideVersion = '4.0.0'
     ext.gsonVersion = '2.8.1'
     ext.googlePlayServiceGcmVersion = '11.8.0'
+    ext.flexboxVersion = '0.3.2'
 }
 
 task clean(type: Delete) {

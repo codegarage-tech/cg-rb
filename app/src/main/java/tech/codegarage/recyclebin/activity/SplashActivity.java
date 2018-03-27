@@ -2,9 +2,13 @@ package tech.codegarage.recyclebin.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+
+import java.util.List;
 
 import tech.codegarage.recyclebin.R;
 import tech.codegarage.recyclebin.model.RealmController;
+import tech.codegarage.recyclebin.model.Tag;
 
 /**
  * @author Md. Rashadul Alam
@@ -44,6 +48,11 @@ public class SplashActivity extends AppCompatActivity
     private void initRealmData() {
         realmController = RealmController.with(this);
         realmController.setTags();
+
+//        List<Tag> tags = realmController.getTags();
+//        for(int i=0;i<tags.size();i++){
+//            Log.d(TAG, "tags: "+tags.get(i).toString());
+//        }
     }
 
 //    private void initSplashUI() {
