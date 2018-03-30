@@ -1,8 +1,13 @@
 package tech.codegarage.recyclebin.activity;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import com.reversecoder.permission.activity.PermissionListActivity;
 
 import io.realm.RealmObject;
 import tech.codegarage.recyclebin.R;
@@ -13,35 +18,22 @@ import tech.codegarage.recyclebin.model.Tag;
  * @author Md. Rashadul Alam
  * Email: rashed.droid@gmail.com
  */
-public class SplashActivity extends AppCompatActivity
-//        BaseActivity
-{
+public class SplashActivity extends AppCompatActivity{
 
     private String TAG = SplashActivity.class.getSimpleName();
     private RealmController realmController;
-    //    SplashCountDownTimer splashCountDownTimer;
-//    private final long splashTime = 4 * 1000;
-//    private final long interval = 1 * 1000;
-//    ShapeRipple ripple;
-//    TextView tvAppVersion, tvMessage, tvProgressStatus, tvLeftFirstBrace, tvProgressMessage, tvRightFirstBrace;
-//    LinearLayout llTitleAnimationView;
-//    MultiColorTextView tvStatus;
-//    ProgressLayout progressLayout;
-//
-//    InputData inputData = null;
-//    PerformLottieTitle performLottieTitle = null;
-//    private String TAG = SplashActivity.class.getSimpleName();
+
+    //Count down timer
+    SplashCountDownTimer splashCountDownTimer;
+    private final long startTime = 4 * 1000;
+    private final long interval = 1 * 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        //get realm data
-        initRealmData();
-
-//        Log.d(TAG, "TAG-1");
-//        initSplashUI();
+        initSplashUI();
     }
 
     private void initRealmData() {
@@ -63,70 +55,57 @@ public class SplashActivity extends AppCompatActivity
             }
         });
         realmController.setTags();
-
-//        List<Tag> tags = realmController.getTags();
-//        for(int i=0;i<tags.size();i++){
-//            Log.d(TAG, "tags: "+tags.get(i).toString());
-//        }
     }
 
-//    private void initSplashUI() {
-//        tvStatus = (MultiColorTextView) findViewById(R.id.tv_status);
-//        tvMessage = (TextView) findViewById(R.id.tv_message);
-//        tvProgressStatus = (TextView) findViewById(R.id.tv_progress_status);
-//        tvLeftFirstBrace = (TextView) findViewById(R.id.tv_left_first_brace);
-//        tvProgressMessage = (TextView) findViewById(R.id.tv_progress_message);
-//        tvRightFirstBrace = (TextView) findViewById(R.id.tv_right_first_brace);
-//        llTitleAnimationView = (LinearLayout) findViewById(R.id.ll_title_animation_view);
-//        llTitleAnimationView.removeAllViews();
-//        tvAppVersion = (TextView) findViewById(R.id.application_version);
-//        tvAppVersion.setText(getString(R.string.app_version_text) + " " + getString(R.string.app_version_name));
-//
-//        //shape ripple
-//        ripple = (ShapeRipple) findViewById(R.id.background_ripple);
-//        ripple.setRippleShape(new Circle());
-//        ripple.setEnableColorTransition(true);
-//        ripple.setEnableSingleRipple(false);
-//        ripple.setEnableRandomPosition(true);
-//        ripple.setEnableRandomColor(true);
-//        ripple.setEnableStrokeStyle(false);
-//        ripple.setRippleDuration(2500);
-//        ripple.setRippleCount(10);
-//        ripple.setRippleMaximumRadius(184);
-//
-//        //Progress layout view
-//        progressLayout = (ProgressLayout) findViewById(R.id.progress_layout);
-//
-//        //Initialize asynctasks
-//        performLottieTitle = new PerformLottieTitle();
-//        inputData = new InputData();
-//
-//        //Call Lottie view
-//        performLottieTitle.execute(getString(R.string.app_name_capital));
-//        Log.d(TAG, "TAG-2");
-//    }
-//
-//    private void navigateHomeActivity() {
-//        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-//        startActivity(intent);
-//        Bungee.slideUp(SplashActivity.this);
-//        finish();
-//    }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == PermissionListActivity.REQUEST_CODE_PERMISSIONS) {
-//            if (resultCode == RESULT_OK) {
-//                navigateHomeActivity();
-//            } else if (resultCode == RESULT_CANCELED) {
-//                Bungee.slideDown(SplashActivity.this);
-//                finish();
-//            }
-//        }
-//    }
-//
+    private void initSplashUI() {
+        // Initialize Splash timer
+        splashCountDownTimer = new SplashCountDownTimer(startTime, interval);
+        splashCountDownTimer.start();
+
+        // Initialize realm data
+        initRealmData();
+    }
+
+    private void navigateHomeActivity() {
+        Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PermissionListActivity.REQUEST_CODE_PERMISSIONS) {
+            if (resultCode == RESULT_OK) {
+                navigateHomeActivity();
+            } else if (resultCode == RESULT_CANCELED) {
+                finish();
+            }
+        }
+    }
+
+    public class SplashCountDownTimer extends CountDownTimer {
+        public SplashCountDownTimer(long startTime, long interval) {
+            super(startTime, interval);
+        }
+
+        @Override
+        public void onFinish() {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Intent intent = new Intent(SplashActivity.this, PermissionListActivity.class);
+                startActivityForResult(intent, PermissionListActivity.REQUEST_CODE_PERMISSIONS);
+            } else {
+                navigateHomeActivity();
+            }
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+        }
+    }
+
 //    /******************************
 //     * Methods for database input *
 //     ******************************/
