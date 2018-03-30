@@ -10,13 +10,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmObject;
 import io.realm.RealmResults;
 
+/**
+ * @author Md. Rashadul Alam
+ * Email: rashed.droid@gmail.com
+ */
 public class RealmController {
 
     private static String TAG = RealmController.class.getSimpleName();
     private static RealmController instance;
     private final Realm realm;
+    private onRealmDataChangeListener onRealmDataChangeListener = null;
+
+    public interface onRealmDataChangeListener<T extends RealmObject> {
+        public void onInsert(T realmModel);
+
+        public void onUpdate(T realmModel);
+
+        public void onDelete(T realmModel);
+    }
 
     public RealmController(Application application) {
         realm = Realm.getDefaultInstance();
@@ -47,6 +61,14 @@ public class RealmController {
         return instance;
     }
 
+    public RealmController.onRealmDataChangeListener getOnRealmDataChangeListener() {
+        return onRealmDataChangeListener;
+    }
+
+    public void setOnRealmDataChangeListener(RealmController.onRealmDataChangeListener onRealmDataChangeListener) {
+        this.onRealmDataChangeListener = onRealmDataChangeListener;
+    }
+
     public Realm getRealm() {
         return realm;
     }
@@ -73,12 +95,12 @@ public class RealmController {
     }
 
     //query a single item with the given id
-    public Tag getTag(String name) {
-        return realm.where(Tag.class).equalTo("name", name).findFirst();
+    public Tag getTag(Tag tag) {
+        return realm.where(Tag.class).equalTo("name", tag.getName()).findFirst();
     }
 
-    public boolean isTagExist(String name) {
-        if (realm.where(Tag.class).equalTo("name", name).findFirst() != null) {
+    public boolean isTagExist(Tag tag) {
+        if (realm.where(Tag.class).equalTo("name", tag.getName()).findFirst() != null) {
             return true;
         } else {
             return false;
@@ -111,10 +133,28 @@ public class RealmController {
         tags.add(tag);
 
         for (Tag mTag : tags) {
-            if (!isTagExist(mTag.getName())) {
+            if (!isTagExist(mTag)) {
                 getRealm().beginTransaction();
                 getRealm().copyToRealm(mTag);
                 getRealm().commitTransaction();
+
+                if (isTagExist(mTag)) {
+                    if (onRealmDataChangeListener != null) {
+                        onRealmDataChangeListener.onInsert(mTag);
+                    }
+                }
+
+//                inputTag.addChangeListener(new RealmObjectChangeListener<RealmModel>() {
+//                    @Override
+//                    public void onChange(RealmModel realmModel, @Nullable ObjectChangeSet changeSet) {
+//                        if (!changeSet.isDeleted() && realmModel != null) {
+//                            if (onRealmDataChangeListener != null) {
+//                                Tag insertedTag = (Tag)realmModel;
+//                                onRealmDataChangeListener.onInsert(insertedTag);
+//                            }
+//                        }
+//                    }
+//                });
             } else {
                 Log.d(TAG, "Tag data already exist.");
             }

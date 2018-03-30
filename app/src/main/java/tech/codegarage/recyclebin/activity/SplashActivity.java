@@ -4,15 +4,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import java.util.List;
-
+import io.realm.RealmObject;
 import tech.codegarage.recyclebin.R;
 import tech.codegarage.recyclebin.model.RealmController;
 import tech.codegarage.recyclebin.model.Tag;
 
 /**
  * @author Md. Rashadul Alam
- *         Email: rashed.droid@gmail.com
+ * Email: rashed.droid@gmail.com
  */
 public class SplashActivity extends AppCompatActivity
 //        BaseActivity
@@ -47,6 +46,22 @@ public class SplashActivity extends AppCompatActivity
 
     private void initRealmData() {
         realmController = RealmController.with(this);
+        realmController.setOnRealmDataChangeListener(new RealmController.onRealmDataChangeListener() {
+            @Override
+            public void onInsert(RealmObject realmObject) {
+                Log.d(TAG, "Inserted data: " + ((Tag) realmObject).toString());
+            }
+
+            @Override
+            public void onUpdate(RealmObject realmObject) {
+
+            }
+
+            @Override
+            public void onDelete(RealmObject realmObject) {
+
+            }
+        });
         realmController.setTags();
 
 //        List<Tag> tags = realmController.getTags();
