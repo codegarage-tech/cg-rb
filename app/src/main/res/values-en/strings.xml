@@ -3,4 +3,7 @@
     <string name="app_name_capital">RECYCLEBIN</string>
     <string name="app_version_text">Version:</string>
     <string name="app_version_name">1.0.0</string>
+
+    <!-- Message -->
+    <string name="txt_loading_message">Loading, please wait.</string>
 </resources>

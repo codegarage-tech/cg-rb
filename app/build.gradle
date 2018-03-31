@@ -15,6 +15,9 @@ repositories {
 
 android {
 
+    compileSdkVersion appCompileSdkVersion
+    buildToolsVersion appBuildToolsVersion
+
     signingConfigs {
         debugConfig {
             try {
@@ -37,9 +40,6 @@ android {
             }
         }
     }
-
-    compileSdkVersion appCompileSdkVersion
-    buildToolsVersion appBuildToolsVersion
 
     defaultConfig {
         applicationId "tech.codegarage.recyclebin"
@@ -262,7 +262,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$supportlibraryVersion"
     implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
 //    implementation "com.google.code.gson:gson:$gsonVersion"
-//    compile "com.android.support:multidex:$multiDexVersion"
+    implementation "com.android.support:multidex:$multiDexVersion"
 
     implementation 'com.reversecoder.permission:rc-permission:1.0.1-SNAPSHOT'
     implementation 'com.reversecoder.library:rc-library:1.0.1-SNAPSHOT'
@@ -279,11 +279,11 @@ dependencies {
     implementation project(":attributionpresenter")
 //    implementation project(":sherlock")
 //    implementation project(":verticalappintro")
-//    implementation project(":shaperipple")
+    implementation project(":shaperipple")
 //    implementation project(":cookiebar2")
 //    implementation project(":localechanger")
 //    implementation project(":updatechecker")
-//    implementation project(":multicolortextview")
+    implementation project(":multicolortextview")
 //    implementation project(":flipview")
 //    implementation project(":gcm")
 //    implementation project(":androidviewanimations")
@@ -291,8 +291,8 @@ dependencies {
 //    implementation project(":bungee")
 //    implementation project(":scheduler")
 //    implementation project(":cyclemenu")
-//    implementation project(":lottie")
-//    implementation project(":progresslayout")
+    implementation project(":lottie")
+    implementation project(":progresslayout")
 //    implementation project(":fillme")
 //    implementation project(":sugar")
 //    implementation project(":foldablelayout")

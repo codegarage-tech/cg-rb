@@ -55,7 +55,7 @@ allprojects {
     ext.supportlibraryVersion = '27.0.2'
     ext.archVersion = '1.0.0-alpha8'
     ext.constraintLayoutVersion = '1.0.2'
-    ext.multiDexVersion = '1.0.2'
+    ext.multiDexVersion = '1.0.3'
     ext.glideVersion = '4.0.0'
     ext.gsonVersion = '2.8.1'
     ext.googlePlayServiceGcmVersion = '11.8.0'

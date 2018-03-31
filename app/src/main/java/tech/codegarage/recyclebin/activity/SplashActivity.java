@@ -1,14 +1,26 @@
 package tech.codegarage.recyclebin.activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieComposition;
+import com.airbnb.lottie.OnCompositionLoadedListener;
+import com.lombokcyberlab.android.multicolortextview.MultiColorTextView;
+import com.reversecoder.library.util.AllSettingsManager;
 import com.reversecoder.permission.activity.PermissionListActivity;
+import com.rodolfonavalon.shaperipplelibrary.ShapeRipple;
+import com.rodolfonavalon.shaperipplelibrary.model.Circle;
 
+import co.mobiwise.library.ProgressLayout;
 import io.realm.RealmObject;
 import tech.codegarage.recyclebin.R;
 import tech.codegarage.recyclebin.model.RealmController;
@@ -20,13 +32,18 @@ import tech.codegarage.recyclebin.model.Tag;
  */
 public class SplashActivity extends AppCompatActivity{
 
-    private String TAG = SplashActivity.class.getSimpleName();
     private RealmController realmController;
-
-    //Count down timer
-    SplashCountDownTimer splashCountDownTimer;
-    private final long startTime = 4 * 1000;
+    private final long splashTime = 4 * 1000;
     private final long interval = 1 * 1000;
+    ShapeRipple ripple;
+    TextView tvAppVersion, tvMessage, tvProgressStatus, tvLeftFirstBrace, tvProgressMessage, tvRightFirstBrace;
+    LinearLayout llTitleAnimationView;
+    MultiColorTextView tvStatus;
+    ProgressLayout progressLayout;
+
+//    InputData inputData = null;
+    PerformLottieTitle performLottieTitle = null;
+    private String TAG = SplashActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +75,45 @@ public class SplashActivity extends AppCompatActivity{
     }
 
     private void initSplashUI() {
+        tvStatus = (MultiColorTextView) findViewById(R.id.tv_status);
+        tvMessage = (TextView) findViewById(R.id.tv_message);
+        tvProgressStatus = (TextView) findViewById(R.id.tv_progress_status);
+        tvLeftFirstBrace = (TextView) findViewById(R.id.tv_left_first_brace);
+        tvProgressMessage = (TextView) findViewById(R.id.tv_progress_message);
+        tvRightFirstBrace = (TextView) findViewById(R.id.tv_right_first_brace);
+        llTitleAnimationView = (LinearLayout) findViewById(R.id.ll_title_animation_view);
+        llTitleAnimationView.removeAllViews();
+        tvAppVersion = (TextView) findViewById(R.id.application_version);
+        tvAppVersion.setText(getString(R.string.app_version_text) + " " + getString(R.string.app_version_name));
+
         // Initialize Splash timer
-        splashCountDownTimer = new SplashCountDownTimer(startTime, interval);
-        splashCountDownTimer.start();
+//        splashCountDownTimer = new SplashCountDownTimer(startTime, interval);
+//        splashCountDownTimer.start();
+
+        //shape ripple
+        ripple = (ShapeRipple) findViewById(R.id.background_ripple);
+        ripple.setRippleShape(new Circle());
+        ripple.setEnableColorTransition(true);
+        ripple.setEnableSingleRipple(false);
+        ripple.setEnableRandomPosition(true);
+        ripple.setEnableRandomColor(true);
+        ripple.setEnableStrokeStyle(false);
+        ripple.setRippleDuration(2500);
+        ripple.setRippleCount(10);
+        ripple.setRippleMaximumRadius(184);
+
+        //Progress layout view
+        progressLayout = (ProgressLayout) findViewById(R.id.progress_layout);
+
+        //Initialize asynctasks
+        performLottieTitle = new PerformLottieTitle();
+//        inputData = new InputData();
+
+        //Call Lottie view
+        performLottieTitle.execute(getString(R.string.app_name_capital));
 
         // Initialize realm data
-        initRealmData();
+//        initRealmData();
     }
 
     private void navigateHomeActivity() {
@@ -85,27 +135,27 @@ public class SplashActivity extends AppCompatActivity{
         }
     }
 
-    public class SplashCountDownTimer extends CountDownTimer {
-        public SplashCountDownTimer(long startTime, long interval) {
-            super(startTime, interval);
-        }
-
-        @Override
-        public void onFinish() {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                Intent intent = new Intent(SplashActivity.this, PermissionListActivity.class);
-                startActivityForResult(intent, PermissionListActivity.REQUEST_CODE_PERMISSIONS);
-            } else {
-                navigateHomeActivity();
-            }
-        }
-
-        @Override
-        public void onTick(long millisUntilFinished) {
-        }
-    }
-
+//    public class SplashCountDownTimer extends CountDownTimer {
+//        public SplashCountDownTimer(long startTime, long interval) {
+//            super(startTime, interval);
+//        }
+//
+//        @Override
+//        public void onFinish() {
+//
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                Intent intent = new Intent(SplashActivity.this, PermissionListActivity.class);
+//                startActivityForResult(intent, PermissionListActivity.REQUEST_CODE_PERMISSIONS);
+//            } else {
+//                navigateHomeActivity();
+//            }
+//        }
+//
+//        @Override
+//        public void onTick(long millisUntilFinished) {
+//        }
+//    }
+//
 //    /******************************
 //     * Methods for database input *
 //     ******************************/
@@ -269,53 +319,53 @@ public class SplashActivity extends AppCompatActivity{
 //            }
 //        }
 //    }
-//
-//    private class PerformLottieTitle extends AsyncTask<String, LottieComposition, String> {
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//
-//            if (!AllSettingsManager.isNullOrEmpty(params[0])) {
-//                llTitleAnimationView.removeAllViews();
-//
-//                String name = params[0];
-//
-//                for (int i = 0; i < name.length(); i++) {
-//                    String fileName = "mobilo/" + name.charAt(i) + ".json";
-//                    LottieComposition.Factory.fromAssetFileName(SplashActivity.this, fileName, new OnCompositionLoadedListener() {
-//                        @Override
-//                        public void onCompositionLoaded(@Nullable LottieComposition composition) {
-//                            if (composition != null) {
-//                                publishProgress(composition);
-//                            }
-//                        }
-//                    });
-//
-//                    try {
-//                        Thread.sleep(interval);
-//                    } catch (Exception ex) {
-//                        ex.printStackTrace();
-//                    }
-//                }
-//            }
-//            return "Executed";
-//        }
-//
-//        @Override
-//        protected void onProgressUpdate(LottieComposition... progress) {
-//            if (progress[0] != null) {
-//                LottieComposition lottieComposition = progress[0];
-//                LottieAnimationView lottieAnimationView = new LottieAnimationView(SplashActivity.this);
-//                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f);
-//                lottieAnimationView.setLayoutParams(layoutParams);
-//                lottieAnimationView.setComposition(lottieComposition);
-//                lottieAnimationView.playAnimation();
-//                llTitleAnimationView.addView(lottieAnimationView);
-//            }
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String result) {
+
+    private class PerformLottieTitle extends AsyncTask<String, LottieComposition, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            if (!AllSettingsManager.isNullOrEmpty(params[0])) {
+                llTitleAnimationView.removeAllViews();
+
+                String name = params[0];
+
+                for (int i = 0; i < name.length(); i++) {
+                    String fileName = "mobilo/" + name.charAt(i) + ".json";
+                    LottieComposition.Factory.fromAssetFileName(SplashActivity.this, fileName, new OnCompositionLoadedListener() {
+                        @Override
+                        public void onCompositionLoaded(@Nullable LottieComposition composition) {
+                            if (composition != null) {
+                                publishProgress(composition);
+                            }
+                        }
+                    });
+
+                    try {
+                        Thread.sleep(interval);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+            return "Executed";
+        }
+
+        @Override
+        protected void onProgressUpdate(LottieComposition... progress) {
+            if (progress[0] != null) {
+                LottieComposition lottieComposition = progress[0];
+                LottieAnimationView lottieAnimationView = new LottieAnimationView(SplashActivity.this);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f);
+                lottieAnimationView.setLayoutParams(layoutParams);
+                lottieAnimationView.setComposition(lottieComposition);
+                lottieAnimationView.playAnimation();
+                llTitleAnimationView.addView(lottieAnimationView);
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
 //            Log.d(TAG, "TAG-3");
 //            if (inputData == null) {
 //                inputData = new InputData();
@@ -329,9 +379,9 @@ public class SplashActivity extends AppCompatActivity{
 //                progressLayout.stop();
 //            }
 //            Log.d(TAG, "TAG-7");
-//        }
-//    }
-//
+        }
+    }
+
 //    @Override
 //    public void onBackPressed() {
 //        if (inputData != null && inputData.getStatus() == AsyncTask.Status.RUNNING) {
