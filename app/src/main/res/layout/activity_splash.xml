@@ -1,27 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorPrimary"
     android:fitsSystemWindows="true"
     android:focusable="true"
     android:focusableInTouchMode="true">
-
-    <co.mobiwise.library.ProgressLayout
-        android:id="@+id/progress_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:autoProgress="false"
-        app:emptyColor="@color/colorPrimaryDark"
-        app:maxProgress="100" />
-
-    <com.rodolfonavalon.shaperipplelibrary.ShapeRipple
-        android:id="@+id/background_ripple"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        custom:ripple_stroke_width="15dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,7 +37,12 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.lombokcyberlab.android.multicolortextview.MultiColorTextView
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <!--<com.lombokcyberlab.android.multicolortextview.MultiColorTextView
                 android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,84 +50,7 @@
                 app:colors="@array/google2"
                 app:text="@string/txt_loading_message"
                 app:textSize="30"
-                app:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/large_font_size" />
-
-            <TextView
-                android:id="@+id/tv_progress_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/large_font_size" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".10"
-                    android:gravity="center"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/tv_left_first_brace"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/medium_font_size" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".80"
-                    android:gravity="center">
-
-                    <TextView
-                        android:id="@+id/tv_progress_message"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/medium_font_size" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".10"
-                    android:gravity="center"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/tv_right_first_brace"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/medium_font_size" />
-
-                </LinearLayout>
-
-            </LinearLayout>
+                app:textStyle="bold" />-->
 
         </LinearLayout>
 
@@ -159,5 +72,11 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <com.rodolfonavalon.shaperipplelibrary.ShapeRipple
+        android:id="@+id/background_ripple"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        custom:ripple_stroke_width="15dp" />
 
 </RelativeLayout>

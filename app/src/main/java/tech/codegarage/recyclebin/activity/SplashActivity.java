@@ -2,18 +2,20 @@ package tech.codegarage.recyclebin.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieComposition;
 import com.airbnb.lottie.OnCompositionLoadedListener;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.lombokcyberlab.android.multicolortextview.MultiColorTextView;
 import com.reversecoder.library.util.AllSettingsManager;
 import com.reversecoder.permission.activity.PermissionListActivity;
@@ -22,6 +24,7 @@ import com.rodolfonavalon.shaperipplelibrary.model.Circle;
 
 import co.mobiwise.library.ProgressLayout;
 import io.realm.RealmObject;
+import spencerstudios.com.bungeelib.Bungee;
 import tech.codegarage.recyclebin.R;
 import tech.codegarage.recyclebin.model.RealmController;
 import tech.codegarage.recyclebin.model.Tag;
@@ -30,18 +33,15 @@ import tech.codegarage.recyclebin.model.Tag;
  * @author Md. Rashadul Alam
  * Email: rashed.droid@gmail.com
  */
-public class SplashActivity extends AppCompatActivity{
+public class SplashActivity extends AppCompatActivity {
 
     private RealmController realmController;
-    private final long splashTime = 4 * 1000;
     private final long interval = 1 * 1000;
     ShapeRipple ripple;
-    TextView tvAppVersion, tvMessage, tvProgressStatus, tvLeftFirstBrace, tvProgressMessage, tvRightFirstBrace;
+    TextView tvAppVersion;
     LinearLayout llTitleAnimationView;
-    MultiColorTextView tvStatus;
-    ProgressLayout progressLayout;
+    ImageView ivLogo;
 
-//    InputData inputData = null;
     PerformLottieTitle performLottieTitle = null;
     private String TAG = SplashActivity.class.getSimpleName();
 
@@ -75,20 +75,18 @@ public class SplashActivity extends AppCompatActivity{
     }
 
     private void initSplashUI() {
-        tvStatus = (MultiColorTextView) findViewById(R.id.tv_status);
-        tvMessage = (TextView) findViewById(R.id.tv_message);
-        tvProgressStatus = (TextView) findViewById(R.id.tv_progress_status);
-        tvLeftFirstBrace = (TextView) findViewById(R.id.tv_left_first_brace);
-        tvProgressMessage = (TextView) findViewById(R.id.tv_progress_message);
-        tvRightFirstBrace = (TextView) findViewById(R.id.tv_right_first_brace);
+        ivLogo = (ImageView) findViewById(R.id.iv_logo);
+        Glide
+                .with(SplashActivity.this)
+                .load(R.drawable.ic_trash)
+//                .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC))
+                .into(ivLogo);
+
         llTitleAnimationView = (LinearLayout) findViewById(R.id.ll_title_animation_view);
         llTitleAnimationView.removeAllViews();
+
         tvAppVersion = (TextView) findViewById(R.id.application_version);
         tvAppVersion.setText(getString(R.string.app_version_text) + " " + getString(R.string.app_version_name));
-
-        // Initialize Splash timer
-//        splashCountDownTimer = new SplashCountDownTimer(startTime, interval);
-//        splashCountDownTimer.start();
 
         //shape ripple
         ripple = (ShapeRipple) findViewById(R.id.background_ripple);
@@ -101,9 +99,6 @@ public class SplashActivity extends AppCompatActivity{
         ripple.setRippleDuration(2500);
         ripple.setRippleCount(10);
         ripple.setRippleMaximumRadius(184);
-
-        //Progress layout view
-        progressLayout = (ProgressLayout) findViewById(R.id.progress_layout);
 
         //Initialize asynctasks
         performLottieTitle = new PerformLottieTitle();
@@ -120,6 +115,7 @@ public class SplashActivity extends AppCompatActivity{
         Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
         startActivity(intent);
         finish();
+        Bungee.slideLeft(SplashActivity.this);
     }
 
     @Override
@@ -134,191 +130,6 @@ public class SplashActivity extends AppCompatActivity{
             }
         }
     }
-
-//    public class SplashCountDownTimer extends CountDownTimer {
-//        public SplashCountDownTimer(long startTime, long interval) {
-//            super(startTime, interval);
-//        }
-//
-//        @Override
-//        public void onFinish() {
-//
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                Intent intent = new Intent(SplashActivity.this, PermissionListActivity.class);
-//                startActivityForResult(intent, PermissionListActivity.REQUEST_CODE_PERMISSIONS);
-//            } else {
-//                navigateHomeActivity();
-//            }
-//        }
-//
-//        @Override
-//        public void onTick(long millisUntilFinished) {
-//        }
-//    }
-//
-//    /******************************
-//     * Methods for database input *
-//     ******************************/
-//    private class InputData extends AsyncTask<String, Object, ArrayList<AppDataBuilder>> {
-//
-//        int mCounter = 0, mProgress = 0;
-//
-//        private InputData() {
-//            mCounter = 0;
-//            mProgress = 0;
-//            Log.d(TAG, "TAG-8");
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//        }
-//
-//        @Override
-//        protected ArrayList<AppDataBuilder> doInBackground(String... params) {
-//
-//            if (!AllSettingsManager.isNullOrEmpty(SessionManager.getStringSetting(QuoteApp.getGlobalContext(), SESSION_DATA_APP_DATA_BUILDER))) {
-//                Log.d(TAG, "TAG-9");
-//                try {
-//                    Thread.sleep(2 * interval);
-//                } catch (Exception ex) {
-//                    ex.printStackTrace();
-//                }
-//                Log.d(TAG, "TAG-10");
-//
-//                if (SessionManager.getBooleanSetting(SplashActivity.this, SESSION_IS_FIRST_TIME, true)) {
-//                    Intent intentAppIntro = new Intent(SplashActivity.this, AppIntroActivity.class);
-//                    startActivity(intentAppIntro);
-//                    Bungee.slideUp(SplashActivity.this);
-//                    finish();
-//                    Log.d(TAG, "TAG-11");
-//                } else {
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                        Intent intentPermission = new Intent(SplashActivity.this, PermissionListActivity.class);
-//                        startActivityForResult(intentPermission, PermissionListActivity.REQUEST_CODE_PERMISSIONS);
-//                        Bungee.slideUp(SplashActivity.this);
-//                        Log.d(TAG, "TAG-12");
-//                    } else {
-//                        navigateHomeActivity();
-//                        Log.d(TAG, "TAG-13");
-//                    }
-//                    Log.d(TAG, "TAG-14");
-//                }
-//            } else {
-//
-////                for (int mCounter = 0; mCounter <= 100; mCounter++) {
-////                    try {
-////                        float progress = ((float) mCounter / (float) 100);
-////                        Log.d(TAG, "Progress:(i) = " + mCounter);
-////                        Log.d(TAG, "Progress:(i) = " + progress);
-////                        publishProgress(progress);
-////                        Thread.sleep(30);
-////                    } catch (Exception ex) {
-////                        ex.printStackTrace();
-////                    }
-////                }
-//                Log.d(TAG, "TAG-15");
-//
-//                publishProgress(mCounter);
-//                ArrayList<AppDataBuilder> appDataBuilders = new ArrayList<>();
-//                appDataBuilders = AppDataHandler.initAllQuotes(new DataInputListener<Object>() {
-//                    @Override
-//                    public void InputListener(Object insertedData) {
-//                        if(insertedData !=null){
-//                            publishProgress(insertedData);
-//                            Log.d(TAG, "TAG-publish progress");
-//                        }
-//                    }
-//                });
-//                Log.d(TAG, "TAG-16");
-//
-//                return appDataBuilders;
-//            }
-//
-//            return null;
-//        }
-//
-//        protected void onProgressUpdate(Object... progress) {
-//            Log.d(TAG, "TAG-=========");
-//            if (progress[0] != null) {
-//                Log.d(TAG, "TAG-17");
-//
-//                //assigning message
-//                String progressMessage = "", progressStatus = "";
-//                if (progress[0] instanceof Quote) {
-//                    Log.d(TAG, "input(Quote): " + ((Quote) progress[0]).toString());
-//                    progressStatus = getString(R.string.txt_setting_quote);
-//                    progressMessage = ((Quote) progress[0]).getQuoteDescription();
-//                    Log.d(TAG, "TAG-18");
-//                } else if (progress[0] instanceof QuoteLanguageAuthorTag) {
-//                    Log.d(TAG, "input(QuoteLanguageAuthorTag): " + ((QuoteLanguageAuthorTag) progress[0]).toString());
-//                    progressStatus = getString(R.string.txt_setting_tag);
-//                    progressMessage = getString(R.string.txt_linking_quote_with_tag);
-//                    Log.d(TAG, "TAG-19");
-//                } else if (progress[0] instanceof Author) {
-//                    Log.d(TAG, "input(Author): " + ((Author) progress[0]).toString());
-//                    progressStatus = getString(R.string.txt_setting_author);
-//                    progressMessage = ((Author) progress[0]).getAuthorName();
-//                    Log.d(TAG, "TAG-20");
-//                } else if (progress[0] instanceof Tag) {
-//                    Log.d(TAG, "input(Tag): " + ((Tag) progress[0]).toString());
-//                    progressStatus = getString(R.string.txt_setting_tag);
-//                    progressMessage = ((Tag) progress[0]).getTagName();
-//                    Log.d(TAG, "TAG-21");
-//                } else if (progress[0] instanceof Language) {
-//                    Log.d(TAG, "input(Language): " + ((Language) progress[0]).toString());
-//                    progressStatus = getString(R.string.txt_setting_language);
-//                    progressMessage = ((Language) progress[0]).getLanguageName();
-//                    Log.d(TAG, "TAG-22");
-//                }
-//                Log.d(TAG, "TAG-23");
-//
-//                //setting message
-//                tvProgressStatus.setText(progressStatus + ",");
-//                tvLeftFirstBrace.setText("(");
-//                tvProgressMessage.setText(progressMessage);
-//                tvRightFirstBrace.setText(")");
-//
-//                //set progress
-//                //As total input is 7885, that's why progress is percentage is 7885/100
-//                if (mCounter == 79) {
-//                    mProgress++;
-//                    float finalProgress = ((float) mProgress / (float) 100);
-//                    if (!progressLayout.isPlaying()) {
-//                        progressLayout.start();
-//                    }
-//
-//                    progressLayout.setCurrentProgress((int) (finalProgress * 100));
-//                    tvMessage.setText(getString(R.string.txt_loading_for_the_first_time) + ",\n" + (int) (finalProgress * 100) + "%");
-//                    mCounter = 0;
-//                    Log.d(TAG, "TAG-24");
-//                }
-//                mCounter++;
-//                Log.d(TAG, "TAG-25");
-//            }
-//            Log.d(TAG, "TAG-=========");
-//        }
-//
-//        @Override
-//        protected void onPostExecute(ArrayList<AppDataBuilder> result) {
-//
-//            if (result != null && result.size() > 0) {
-//                if (SessionManager.getBooleanSetting(SplashActivity.this, SESSION_IS_FIRST_TIME, true)) {
-//                    Intent intentAppIntro = new Intent(SplashActivity.this, AppIntroActivity.class);
-//                    startActivity(intentAppIntro);
-//                    Bungee.slideUp(SplashActivity.this);
-//                    finish();
-//                } else {
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                        Intent intentPermission = new Intent(SplashActivity.this, PermissionListActivity.class);
-//                        startActivityForResult(intentPermission, PermissionListActivity.REQUEST_CODE_PERMISSIONS);
-//                        Bungee.slideUp(SplashActivity.this);
-//                    } else {
-//                        navigateHomeActivity();
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     private class PerformLottieTitle extends AsyncTask<String, LottieComposition, String> {
 
@@ -382,21 +193,13 @@ public class SplashActivity extends AppCompatActivity{
         }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (inputData != null && inputData.getStatus() == AsyncTask.Status.RUNNING) {
-//            inputData.cancel(true);
-//        }
-//
-//        if (performLottieTitle != null && performLottieTitle.getStatus() == AsyncTask.Status.RUNNING) {
-//            performLottieTitle.cancel(true);
-//        }
-//
-//        if (progressLayout.isPlaying()) {
-//            progressLayout.stop();
-//        }
-//
-//        super.onBackPressed();
-//        Bungee.slideDown(SplashActivity.this);
-//    }
+    @Override
+    public void onBackPressed() {
+        if (performLottieTitle != null && performLottieTitle.getStatus() == AsyncTask.Status.RUNNING) {
+            performLottieTitle.cancel(true);
+        }
+
+        super.onBackPressed();
+        Bungee.slideLeft(SplashActivity.this);
+    }
 }

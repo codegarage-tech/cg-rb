@@ -268,6 +268,10 @@ dependencies {
     implementation 'com.reversecoder.library:rc-library:1.0.1-SNAPSHOT'
 //    implementation 'com.reversecoder.logger:rc-logger:1.0.1-SNAPSHOT'
 
+    //Image loading
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
+
     //library projects
 //    implementation project(":ribblemenu")
 //    implementation project(":easyrecyclerview")
@@ -288,7 +292,7 @@ dependencies {
 //    implementation project(":gcm")
 //    implementation project(":androidviewanimations")
 //    implementation project(":litepal")
-//    implementation project(":bungee")
+    implementation project(":bungee")
 //    implementation project(":scheduler")
 //    implementation project(":cyclemenu")
     implementation project(":lottie")
