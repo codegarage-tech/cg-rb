@@ -4,6 +4,9 @@
     <string name="app_version_text">Version:</string>
     <string name="app_version_name">1.0.0</string>
 
+    <!-- Title -->
+    <string name="title_activity_home">Home</string>
+
     <!-- Message -->
     <string name="txt_loading_message">Loading, please wait.</string>
 </resources>

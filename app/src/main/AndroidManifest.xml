@@ -31,6 +31,11 @@
             android:name="tech.codegarage.recyclebin.activity.HomeActivity"
             android:theme="@style/AppTheme.Transparent" />
 
+        <service
+            android:name="tech.codegarage.recyclebin.service.RecoveryService"
+            android:enabled="true"
+            android:exported="true" />
+
     </application>
 
 </manifest>

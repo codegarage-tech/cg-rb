@@ -51,6 +51,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void initRealmData() {
+        realmController = RealmController.with(this);
         realmController.setOnRealmDataChangeListener(new RealmController.onRealmDataChangeListener() {
             @Override
             public void onInsert(RealmObject realmObject) {
@@ -71,6 +72,8 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void initSplashUI() {
+        initRealmData();
+
         ivLogo = (ImageView) findViewById(R.id.iv_logo);
         Glide
                 .with(SplashActivity.this)
@@ -96,15 +99,9 @@ public class SplashActivity extends AppCompatActivity {
         ripple.setRippleCount(10);
         ripple.setRippleMaximumRadius(184);
 
-        //Initialize asynctasks
-        performLottieTitle = new PerformLottieTitle();
-//        inputData = new InputData();
-
         //Call Lottie view
+        performLottieTitle = new PerformLottieTitle();
         performLottieTitle.execute(getString(R.string.app_name_capital));
-
-        // Initialize realm
-        realmController = RealmController.with(this);
     }
 
     private void navigateHomeActivity() {
@@ -120,10 +117,6 @@ public class SplashActivity extends AppCompatActivity {
 
         if (requestCode == PermissionListActivity.REQUEST_CODE_PERMISSIONS) {
             if (resultCode == RESULT_OK) {
-                if (!realmController.hasTags()) {
-                    realmController.setTags();
-                }
-
                 navigateHomeActivity();
             } else if (resultCode == RESULT_CANCELED) {
                 finish();
@@ -183,10 +176,6 @@ public class SplashActivity extends AppCompatActivity {
                 startActivityForResult(intentPermission, PermissionListActivity.REQUEST_CODE_PERMISSIONS);
                 Bungee.slideRight(SplashActivity.this);
             } else {
-                if (!realmController.hasTags()) {
-                    realmController.setTags();
-                }
-
                 navigateHomeActivity();
             }
         }
@@ -200,5 +189,12 @@ public class SplashActivity extends AppCompatActivity {
 
         super.onBackPressed();
         Bungee.slideLeft(SplashActivity.this);
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+
+        realmController.destroyRealm();
     }
 }

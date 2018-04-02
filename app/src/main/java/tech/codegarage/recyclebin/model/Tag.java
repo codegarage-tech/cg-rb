@@ -10,13 +10,11 @@ public class Tag extends RealmObject {
     // If you are using GSON, field names should not be obfuscated.
     // Add either the proguard rule in proguard-rules.pro or the @SerializedName annotation.
 
-    private String name;
     @PrimaryKey
-    private String md5;
+    private String name;
 
     public Tag(String name) {
         this.name = name;
-        this.md5 = MD5Manager.getMD5ByString(toString());
     }
 
     public Tag() {
@@ -30,19 +28,10 @@ public class Tag extends RealmObject {
         this.name = name;
     }
 
-    public String getMd5() {
-        return md5;
-    }
-
-    public void setMd5(String md5) {
-        this.md5 = md5;
-    }
-
     @Override
     public String toString() {
         return "{" +
                 "name='" + name + '\'' +
-                ", md5='" + this.hashCode() + '\'' +
                 '}';
     }
 }

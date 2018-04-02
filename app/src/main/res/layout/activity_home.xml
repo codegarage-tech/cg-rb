@@ -1,164 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:custom="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:fitsSystemWindows="true"
     android:focusable="true"
     android:focusableInTouchMode="true">
-<!--
 
-    <co.mobiwise.library.ProgressLayout
-        android:id="@+id/progress_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:autoProgress="false"
-        app:emptyColor="@color/colorPrimaryDark"
-        app:maxProgress="100" />
+    <include layout="@layout/toolbar_base" />
 
-    <com.rodolfonavalon.shaperipplelibrary.ShapeRipple
-        android:id="@+id/background_ripple"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        custom:ripple_stroke_width="15dp" />
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
-        android:orientation="vertical">
+        <co.mobiwise.library.ProgressLayout
+            android:id="@+id/progress_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:autoProgress="false"
+            app:emptyColor="@color/colorPrimary"
+            app:maxProgress="100" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".40"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
             android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/ll_title_animation_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="30dp"
-                android:gravity="center"
-                android:orientation="horizontal" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".40"
-            android:gravity="center"
-            android:orientation="vertical">
+    </FrameLayout>
 
-            <com.lombokcyberlab.android.multicolortextview.MultiColorTextView
-                android:id="@+id/tv_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                app:colors="@array/google2"
-                app:text="@string/txt_loading_message"
-                app:textSize="30"
-                app:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/large_font_size" />
-
-            <TextView
-                android:id="@+id/tv_progress_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/large_font_size" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".10"
-                    android:gravity="center"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/tv_left_first_brace"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/medium_font_size" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".80"
-                    android:gravity="center">
-
-                    <TextView
-                        android:id="@+id/tv_progress_message"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/medium_font_size" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".10"
-                    android:gravity="center"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/tv_right_first_brace"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/medium_font_size" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight=".20"
-            android:gravity="bottom|right"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/application_version"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_version_name"
-                android:textColor="@color/white"
-                android:textSize="@dimen/medium_font_size" />
-
-        </LinearLayout>
-
-    </LinearLayout>
--->
-
-</RelativeLayout>
+</LinearLayout>

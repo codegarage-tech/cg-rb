@@ -3,6 +3,7 @@ package tech.codegarage.recyclebin.model;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
@@ -12,6 +13,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
+import tech.codegarage.recyclebin.enumeration.TagType;
 
 /**
  * @author Md. Rashadul Alam
@@ -34,6 +36,13 @@ public class RealmController {
 
     public RealmController(Application application) {
         realm = Realm.getDefaultInstance();
+    }
+
+    public static RealmController with(Context context) {
+        if (instance == null) {
+            instance = new RealmController((Application)context.getApplicationContext());
+        }
+        return instance;
     }
 
     public static RealmController with(Fragment fragment) {
@@ -121,26 +130,22 @@ public class RealmController {
                 .findAll();
     }
 
-    public void setTags() {
-        ArrayList<Tag> tags = new ArrayList<>();
-        Tag tag = new Tag("Video");
-        tags.add(tag);
-        tag = new Tag("Audio");
-        tags.add(tag);
-        tag = new Tag("Image");
-        tags.add(tag);
-        tag = new Tag("Document");
-        tags.add(tag);
-
-        for (Tag mTag : tags) {
+    public boolean setTags() {
+        Tag mTag;
+        for(TagType tagType: TagType.values()){
+            Log.d(TAG, "tag is: "+tagType.name());
+            mTag = new Tag(tagType.name());
             if (!isTagExist(mTag)) {
+                Log.d(TAG, tagType.name()+" is not exist.");
                 getRealm().beginTransaction();
                 getRealm().copyToRealm(mTag);
                 getRealm().commitTransaction();
 
                 if (isTagExist(mTag)) {
+                    Log.d(TAG, "Tag inserted: "+mTag.toString());
                     if (onRealmDataChangeListener != null) {
                         onRealmDataChangeListener.onInsert(mTag);
+                        Log.d(TAG, "Tag is listening: "+mTag.toString());
                     }
                 }
 
@@ -159,9 +164,12 @@ public class RealmController {
                 Log.d(TAG, "Tag data already exist.");
             }
         }
+        return true;
     }
 
     public void destroyRealm() {
-        realm.close();
+        if(!realm.isClosed()){
+            realm.close();
+        }
     }
 }
