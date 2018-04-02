@@ -2,6 +2,7 @@ package tech.codegarage.recyclebin.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,15 +15,11 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieComposition;
 import com.airbnb.lottie.OnCompositionLoadedListener;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
-import com.lombokcyberlab.android.multicolortextview.MultiColorTextView;
 import com.reversecoder.library.util.AllSettingsManager;
 import com.reversecoder.permission.activity.PermissionListActivity;
 import com.rodolfonavalon.shaperipplelibrary.ShapeRipple;
 import com.rodolfonavalon.shaperipplelibrary.model.Circle;
 
-import co.mobiwise.library.ProgressLayout;
 import io.realm.RealmObject;
 import spencerstudios.com.bungeelib.Bungee;
 import tech.codegarage.recyclebin.R;
@@ -54,7 +51,6 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void initRealmData() {
-        realmController = RealmController.with(this);
         realmController.setOnRealmDataChangeListener(new RealmController.onRealmDataChangeListener() {
             @Override
             public void onInsert(RealmObject realmObject) {
@@ -107,8 +103,8 @@ public class SplashActivity extends AppCompatActivity {
         //Call Lottie view
         performLottieTitle.execute(getString(R.string.app_name_capital));
 
-        // Initialize realm data
-//        initRealmData();
+        // Initialize realm
+        realmController = RealmController.with(this);
     }
 
     private void navigateHomeActivity() {
@@ -124,9 +120,14 @@ public class SplashActivity extends AppCompatActivity {
 
         if (requestCode == PermissionListActivity.REQUEST_CODE_PERMISSIONS) {
             if (resultCode == RESULT_OK) {
+                if (!realmController.hasTags()) {
+                    realmController.setTags();
+                }
+
                 navigateHomeActivity();
             } else if (resultCode == RESULT_CANCELED) {
                 finish();
+                Bungee.slideLeft(SplashActivity.this);
             }
         }
     }
@@ -177,19 +178,17 @@ public class SplashActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-//            Log.d(TAG, "TAG-3");
-//            if (inputData == null) {
-//                inputData = new InputData();
-//            }
-//            Log.d(TAG, "TAG-4");
-//            inputData.execute();
-//            Log.d(TAG, "TAG-5");
-//
-//            if (progressLayout.isPlaying()) {
-//                Log.d(TAG, "TAG-6");
-//                progressLayout.stop();
-//            }
-//            Log.d(TAG, "TAG-7");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Intent intentPermission = new Intent(SplashActivity.this, PermissionListActivity.class);
+                startActivityForResult(intentPermission, PermissionListActivity.REQUEST_CODE_PERMISSIONS);
+                Bungee.slideRight(SplashActivity.this);
+            } else {
+                if (!realmController.hasTags()) {
+                    realmController.setTags();
+                }
+
+                navigateHomeActivity();
+            }
         }
     }
 
