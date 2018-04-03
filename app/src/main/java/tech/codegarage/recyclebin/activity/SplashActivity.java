@@ -190,11 +190,4 @@ public class SplashActivity extends AppCompatActivity {
         super.onBackPressed();
         Bungee.slideLeft(SplashActivity.this);
     }
-
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-
-        realmController.destroyRealm();
-    }
 }

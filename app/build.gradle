@@ -261,7 +261,7 @@ dependencies {
     //gradle libraries
     implementation "com.android.support:appcompat-v7:$supportlibraryVersion"
     implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
-//    implementation "com.google.code.gson:gson:$gsonVersion"
+    implementation "com.google.code.gson:gson:$gsonVersion"
     implementation "com.android.support:multidex:$multiDexVersion"
 
     implementation 'com.reversecoder.permission:rc-permission:1.0.1-SNAPSHOT'

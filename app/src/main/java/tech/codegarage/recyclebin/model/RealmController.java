@@ -7,13 +7,18 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.reversecoder.library.storage.SessionManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
+import tech.codegarage.recyclebin.application.RecycleBinApp;
 import tech.codegarage.recyclebin.enumeration.TagType;
+
+import static tech.codegarage.recyclebin.util.AllConstants.SESSION_DATA_TAGS;
 
 /**
  * @author Md. Rashadul Alam
@@ -40,7 +45,7 @@ public class RealmController {
 
     public static RealmController with(Context context) {
         if (instance == null) {
-            instance = new RealmController((Application)context.getApplicationContext());
+            instance = new RealmController((Application) context.getApplicationContext());
         }
         return instance;
     }
@@ -131,44 +136,38 @@ public class RealmController {
     }
 
     public boolean setTags() {
+        ArrayList<Tag> tags = new ArrayList<>();
         Tag mTag;
-        for(TagType tagType: TagType.values()){
-            Log.d(TAG, "tag is: "+tagType.name());
+        for (TagType tagType : TagType.values()) {
+            Log.d(TAG, "tag is: " + tagType.name());
             mTag = new Tag(tagType.name());
             if (!isTagExist(mTag)) {
-                Log.d(TAG, tagType.name()+" is not exist.");
+                Log.d(TAG, tagType.name() + " is not exist.");
                 getRealm().beginTransaction();
                 getRealm().copyToRealm(mTag);
                 getRealm().commitTransaction();
+            }
 
-                if (isTagExist(mTag)) {
-                    Log.d(TAG, "Tag inserted: "+mTag.toString());
-                    if (onRealmDataChangeListener != null) {
-                        onRealmDataChangeListener.onInsert(mTag);
-                        Log.d(TAG, "Tag is listening: "+mTag.toString());
-                    }
+            if (isTagExist(mTag)) {
+                Log.d(TAG, "Tag exist: " + mTag.toString());
+                tags.add(mTag);
+
+                if (onRealmDataChangeListener != null) {
+                    onRealmDataChangeListener.onInsert(mTag);
+                    Log.d(TAG, "Tag is listening: " + mTag.toString());
                 }
-
-//                inputTag.addChangeListener(new RealmObjectChangeListener<RealmModel>() {
-//                    @Override
-//                    public void onChange(RealmModel realmModel, @Nullable ObjectChangeSet changeSet) {
-//                        if (!changeSet.isDeleted() && realmModel != null) {
-//                            if (onRealmDataChangeListener != null) {
-//                                Tag insertedTag = (Tag)realmModel;
-//                                onRealmDataChangeListener.onInsert(insertedTag);
-//                            }
-//                        }
-//                    }
-//                });
-            } else {
-                Log.d(TAG, "Tag data already exist.");
             }
         }
+
+        //Save tags into session
+        DataTag dataTag = new DataTag(tags);
+        SessionManager.setStringSetting(RecycleBinApp.getGlobalContext(), SESSION_DATA_TAGS, DataTag.convertFromObjectToString(dataTag));
+
         return true;
     }
 
     public void destroyRealm() {
-        if(!realm.isClosed()){
+        if (!realm.isClosed()) {
             realm.close();
         }
     }

@@ -4,6 +4,10 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * @author Md. Rashadul Alam
+ * Email: rashed.droid@gmail.com
+ */
 public class RecoveryFileInfo {
 
     private long id;

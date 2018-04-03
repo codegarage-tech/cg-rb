@@ -11,7 +11,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import tech.codegarage.recyclebin.enumeration.TagType;
-import tech.codegarage.recyclebin.model.RealmController;
 import tech.codegarage.recyclebin.model.Tag;
 
 import static android.content.Context.ACTIVITY_SERVICE;
@@ -181,33 +180,32 @@ public class FileManager {
         return tagType;
     }
 
-    public static Tag getFileTag(Context context, String filePath) {
+    public static Tag getFileTag(String filePath) {
         Tag tag = null;
-        RealmController realmController = RealmController.with(context);
         switch (getTagType(filePath)) {
             case ALL:
-                tag = realmController.getTag(new Tag(TagType.ALL.name()));
+                tag = new Tag(TagType.ALL.name());
                 break;
             case IMAGE:
-                tag = realmController.getTag(new Tag(TagType.IMAGE.name()));
+                tag = new Tag(TagType.IMAGE.name());
                 break;
             case AUDIO:
-                tag = realmController.getTag(new Tag(TagType.AUDIO.name()));
+                tag = new Tag(TagType.AUDIO.name());
                 break;
             case VIDEO:
-                tag = realmController.getTag(new Tag(TagType.VIDEO.name()));
+                tag = new Tag(TagType.VIDEO.name());
                 break;
             case DOCUMENT:
-                tag = realmController.getTag(new Tag(TagType.DOCUMENT.name()));
+                tag = new Tag(TagType.DOCUMENT.name());
                 break;
             case ZIP:
-                tag = realmController.getTag(new Tag(TagType.ZIP.name()));
+                tag = new Tag(TagType.ZIP.name());
                 break;
             case APK:
-                tag = realmController.getTag(new Tag(TagType.APK.name()));
+                tag = new Tag(TagType.APK.name());
                 break;
             case OTHER:
-                tag = realmController.getTag(new Tag(TagType.OTHER.name()));
+                tag = new Tag(TagType.OTHER.name());
                 break;
         }
 

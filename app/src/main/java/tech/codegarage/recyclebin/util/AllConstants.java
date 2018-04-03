@@ -12,6 +12,7 @@ public class AllConstants {
 
     //Session
     public static final String SESSION_IS_FIRST_TIME = "SESSION_IS_FIRST_TIME";
+    public static final String SESSION_DATA_TAGS = "SESSION_DATA_TAGS";
 
     //Recovery service
     public static final String HIDDEN_FOLDER_NAME = ".uffJhal";

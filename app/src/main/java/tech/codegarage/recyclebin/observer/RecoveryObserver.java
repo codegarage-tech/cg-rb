@@ -417,7 +417,7 @@ public class RecoveryObserver extends FileObserver {
                     String recoveryFilePath = HIDDEN_DIRECTORY + File.separator + recoveryMD5FileName;
                     //set tag
                     ArrayList<Tag> fileTag = new ArrayList<Tag>();
-                    fileTag.add(FileManager.getFileTag(mContext, originFilePath));
+                    fileTag.add(FileManager.getFileTag(originFilePath));
                     for (int i = 0; i < fileTag.size(); i++) {
                         Log.d(TAG, "Tag to be stored into hashmap: " + i + " is: " + fileTag.get(i));
                     }

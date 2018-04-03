@@ -42,4 +42,9 @@ public class RecycleBinApp extends Application {
     private void initTypeface() {
         canaroExtraBold = Typeface.createFromAsset(getAssets(), CANARO_EXTRA_BOLD_PATH);
     }
+
+
+    public static Context getGlobalContext() {
+        return mContext;
+    }
 }
