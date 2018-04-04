@@ -18,7 +18,6 @@ import io.realm.RealmResults;
 import tech.codegarage.recyclebin.application.RecycleBinApp;
 import tech.codegarage.recyclebin.enumeration.TagType;
 import tech.codegarage.recyclebin.model.DataTag;
-import tech.codegarage.recyclebin.model.realm.Tag;
 
 import static tech.codegarage.recyclebin.util.AllConstants.SESSION_DATA_TAGS;
 
@@ -89,19 +88,25 @@ public class RealmController {
         return realm;
     }
 
-    //Refresh the realm istance
     public void refresh() {
         realm.refresh();
     }
 
-    //clear all objects from Tag.class
+    public void destroyRealm() {
+        if (!realm.isClosed()) {
+            realm.close();
+        }
+    }
+
+    /***************
+     * Tag handler *
+     ***************/
     public void clearAllTags() {
         realm.beginTransaction();
         realm.delete(Tag.class);
         realm.commitTransaction();
     }
 
-    //find all objects in the Tag.class
     public List<Tag> getTags() {
         return realm.copyFromRealm(getResultTags());
     }
@@ -110,7 +115,6 @@ public class RealmController {
         return realm.where(Tag.class).findAll();
     }
 
-    //query a single item with the given id
     public Tag getTag(Tag tag) {
         return realm.where(Tag.class).equalTo("name", tag.getName()).findFirst();
     }
@@ -123,12 +127,10 @@ public class RealmController {
         }
     }
 
-    //check if Tag.class is empty
     public boolean hasTags() {
         return realm.where(Tag.class).findAll().size() > 0;
     }
 
-    //query example
     public RealmResults<Tag> queryedTags() {
         return realm.where(Tag.class)
                 .contains("author", "Author 0")
@@ -168,9 +170,40 @@ public class RealmController {
         return true;
     }
 
-    public void destroyRealm() {
-        if (!realm.isClosed()) {
-            realm.close();
+    /*************************
+     * Recovery file handler *
+     *************************/
+    public void setRecoveryFileInfo(RecoveryFileInfo recoveryFileInfo){
+        if (!isRecoveryFileInfoExist(recoveryFileInfo)) {
+            Log.d(TAG, recoveryFileInfo.getOriginFileName() + " is not exist.");
+            getRealm().beginTransaction();
+            getRealm().copyToRealm(recoveryFileInfo);
+            getRealm().commitTransaction();
         }
+
+        if (isRecoveryFileInfoExist(recoveryFileInfo)) {
+            Log.d(TAG, "RecoveryFileInfo exist: " + recoveryFileInfo.toString());
+
+            if (onRealmDataChangeListener != null) {
+                onRealmDataChangeListener.onInsert(recoveryFileInfo);
+                Log.d(TAG, "RecoveryFileInfo is listening: " + recoveryFileInfo.toString());
+            }
+        }
+    }
+
+    public RecoveryFileInfo getRecoveryFileInfo(RecoveryFileInfo recoveryFileInfo) {
+        return realm.where(RecoveryFileInfo.class).equalTo("originFilePath", recoveryFileInfo.getOriginFilePath()).findFirst();
+    }
+
+    public boolean isRecoveryFileInfoExist(RecoveryFileInfo recoveryFileInfo) {
+        if (realm.where(RecoveryFileInfo.class).equalTo("originFilePath", recoveryFileInfo.getOriginFilePath()).findFirst() != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean hasRecoveryFileInfo() {
+        return realm.where(RecoveryFileInfo.class).findAll().size() > 0;
     }
 }

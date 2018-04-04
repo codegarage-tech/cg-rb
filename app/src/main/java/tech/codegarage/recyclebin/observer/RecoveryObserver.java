@@ -19,6 +19,8 @@ import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 
 import io.realm.RealmList;
+import io.realm.RealmObject;
+import tech.codegarage.recyclebin.model.realm.RealmController;
 import tech.codegarage.recyclebin.model.realm.RecoveryFileInfo;
 import tech.codegarage.recyclebin.model.realm.Tag;
 import tech.codegarage.recyclebin.model.UpdateCopyingProgress;
@@ -331,8 +333,29 @@ public class RecoveryObserver extends FileObserver {
                 Log.e(TAG, "old md5 " + mRecoveryFileInfo.getOriginMd5File());
                 Log.e(TAG, "md5 " + (result.equals(mRecoveryFileInfo.getOriginMd5File()) ? "same" : "diff"));
 
-
                 if (result.equals(mRecoveryFileInfo.getOriginMd5File())) {
+                    mRecoveryFileInfo.setDeletedDate(new Date());
+
+//                    RealmController realmController = RealmController.getInstance();
+//                    realmController.setOnRealmDataChangeListener(new RealmController.onRealmDataChangeListener() {
+//                        @Override
+//                        public void onInsert(RealmObject realmModel) {
+//                            Log.d(TAG, "Inserted data: " + ((RecoveryFileInfo) realmModel).toString());
+//                        }
+//
+//                        @Override
+//                        public void onUpdate(RealmObject realmModel) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onDelete(RealmObject realmModel) {
+//
+//                        }
+//                    });
+//                    realmController.setRecoveryFileInfo(mRecoveryFileInfo);
+
+
 
 //                    //prepare data for saving into database
 //                    DeletedFileInfo deletedFileInfo = new DeletedFileInfo(mRecoveryFileInfo.getOriginFileName(), mRecoveryFileInfo.getOriginFilePath(),
@@ -423,7 +446,7 @@ public class RecoveryObserver extends FileObserver {
                     }
 
                     recoveryFileInfo = new RecoveryFileInfo(originFileName, originFilePath, originMd5File,
-                            originFileInputStream, originFileLength, recoveryMD5FileName, recoveryFilePath, new Date(), true, fileTag);
+                            originFileInputStream, originFileLength, recoveryMD5FileName, recoveryFilePath, null, true, fileTag);
                     recoverInfoHashMap.put(originFilePath, recoveryFileInfo);
                     Log.d(TAG, recoveryFileInfo.toString());
                 } catch (Exception ex) {
