@@ -1,27 +1,36 @@
 package tech.codegarage.recyclebin.model.realm;
 
 import java.io.FileInputStream;
-import java.util.ArrayList;
 import java.util.Date;
+
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * @author Md. Rashadul Alam
  * Email: rashed.droid@gmail.com
  */
-public class RecoveryFileInfo {
+public class RecoveryFileInfo extends RealmObject{
 
     private String originFileName;
+    @PrimaryKey
     private String originFilePath;
     private String originMd5File;
+    @Ignore
     private FileInputStream originFileInputStream;
     private int originFileLength = -1;
     private String recoveryMD5FileName;
     private String recoveryFilePath;
     private Date deletedDate;
     private boolean isFile = true;
-    private ArrayList<Tag> tags;
+    private RealmList<Tag> tags;
 
-    public RecoveryFileInfo(String originFileName, String originFilePath, String originMd5File, FileInputStream originFileInputStream, int originFileLength, String recoveryMD5FileName, String recoveryFilePath, Date deletedDate, boolean isFile, ArrayList<Tag> tags) {
+    public RecoveryFileInfo() {
+    }
+
+    public RecoveryFileInfo(String originFileName, String originFilePath, String originMd5File, FileInputStream originFileInputStream, int originFileLength, String recoveryMD5FileName, String recoveryFilePath, Date deletedDate, boolean isFile, RealmList<Tag> tags) {
         this.originFileName = originFileName;
         this.originFilePath = originFilePath;
         this.originMd5File = originMd5File;
@@ -106,11 +115,11 @@ public class RecoveryFileInfo {
         isFile = file;
     }
 
-    public ArrayList<Tag> getTags() {
+    public RealmList<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(ArrayList<Tag> tags) {
+    public void setTags(RealmList<Tag> tags) {
         this.tags = tags;
     }
 

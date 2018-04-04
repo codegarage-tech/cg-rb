@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 
+import io.realm.RealmList;
 import tech.codegarage.recyclebin.model.realm.RecoveryFileInfo;
 import tech.codegarage.recyclebin.model.realm.Tag;
 import tech.codegarage.recyclebin.model.UpdateCopyingProgress;
@@ -272,33 +273,33 @@ public class RecoveryObserver extends FileObserver {
             //starting copying process
             Log.e(TAG, "copyFile " + mRecoveryFileInfo.getOriginFilePath() + " to " + mRecoveryFileInfo.getRecoveryFilePath());
             mRecoveredFiles.put(mRecoveryFileInfo.getOriginFilePath(), true);
-            FileOutputStream fs = null;
+            FileOutputStream fileOutputStream = null;
 
             try {
                 int byteSum = 0;
                 int byteRead = 0;
-                fs = new FileOutputStream(mRecoveryFileInfo.getRecoveryFilePath());
+                fileOutputStream = new FileOutputStream(mRecoveryFileInfo.getRecoveryFilePath());
                 byte[] buffer = new byte[BUFFER_SIZE];
                 while ((byteRead = mRecoveryFileInfo.getOriginFileInputStream().read(buffer)) != -1) {
                     byteSum += byteRead;
-                    fs.write(buffer, 0, byteRead);
+                    fileOutputStream.write(buffer, 0, byteRead);
                 }
             } catch (Exception e) {
                 Log.d(TAG, e.getMessage());
                 try {
                     byte[] buffer = new byte[mRecoveryFileInfo.getOriginFileLength() % BUFFER_SIZE];
                     int byteRead = mRecoveryFileInfo.getOriginFileInputStream().read(buffer);
-                    if (byteRead != -1 && fs != null) {
-                        fs.write(buffer, 0, byteRead);
+                    if (byteRead != -1 && fileOutputStream != null) {
+                        fileOutputStream.write(buffer, 0, byteRead);
                     }
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
 
             } finally {
-                if (fs != null) {
+                if (fileOutputStream != null) {
                     try {
-                        fs.flush();
+                        fileOutputStream.flush();
                         mRecoveryFileInfo.getOriginFileInputStream().close();
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -415,7 +416,7 @@ public class RecoveryObserver extends FileObserver {
                     String recoveryMD5FileName = MD5Manager.getMD5ByString(fileItem.getAbsolutePath());
                     String recoveryFilePath = HIDDEN_DIRECTORY + File.separator + recoveryMD5FileName;
                     //set tag
-                    ArrayList<Tag> fileTag = new ArrayList<Tag>();
+                    RealmList<Tag> fileTag = new RealmList<Tag>();
                     fileTag.add(FileManager.getFileTag(originFilePath));
                     for (int i = 0; i < fileTag.size(); i++) {
                         Log.d(TAG, "Tag to be stored into hashmap: " + i + " is: " + fileTag.get(i));
