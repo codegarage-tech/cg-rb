@@ -23,8 +23,8 @@ import com.rodolfonavalon.shaperipplelibrary.model.Circle;
 import io.realm.RealmObject;
 import spencerstudios.com.bungeelib.Bungee;
 import tech.codegarage.recyclebin.R;
-import tech.codegarage.recyclebin.model.RealmController;
-import tech.codegarage.recyclebin.model.Tag;
+import tech.codegarage.recyclebin.model.realm.RealmController;
+import tech.codegarage.recyclebin.model.realm.Tag;
 
 /**
  * @author Md. Rashadul Alam

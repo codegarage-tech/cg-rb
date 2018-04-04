@@ -1,4 +1,4 @@
-package tech.codegarage.recyclebin.model;
+package tech.codegarage.recyclebin.model.realm;
 
 
 import android.app.Activity;
@@ -17,6 +17,8 @@ import io.realm.RealmObject;
 import io.realm.RealmResults;
 import tech.codegarage.recyclebin.application.RecycleBinApp;
 import tech.codegarage.recyclebin.enumeration.TagType;
+import tech.codegarage.recyclebin.model.DataTag;
+import tech.codegarage.recyclebin.model.realm.Tag;
 
 import static tech.codegarage.recyclebin.util.AllConstants.SESSION_DATA_TAGS;
 

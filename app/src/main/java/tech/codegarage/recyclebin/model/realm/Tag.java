@@ -1,4 +1,4 @@
-package tech.codegarage.recyclebin.model;
+package tech.codegarage.recyclebin.model.realm;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

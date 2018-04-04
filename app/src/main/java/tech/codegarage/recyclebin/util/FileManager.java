@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import tech.codegarage.recyclebin.enumeration.TagType;
-import tech.codegarage.recyclebin.model.Tag;
+import tech.codegarage.recyclebin.model.realm.Tag;
 
 import static android.content.Context.ACTIVITY_SERVICE;
 

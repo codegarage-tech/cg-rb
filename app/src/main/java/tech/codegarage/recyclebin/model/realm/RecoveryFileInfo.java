@@ -1,4 +1,4 @@
-package tech.codegarage.recyclebin.model;
+package tech.codegarage.recyclebin.model.realm;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -10,7 +10,6 @@ import java.util.Date;
  */
 public class RecoveryFileInfo {
 
-    private long id;
     private String originFileName;
     private String originFilePath;
     private String originMd5File;
@@ -33,14 +32,6 @@ public class RecoveryFileInfo {
         this.deletedDate = deletedDate;
         this.isFile = isFile;
         this.tags = tags;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getOriginFileName() {
@@ -126,8 +117,7 @@ public class RecoveryFileInfo {
     @Override
     public String toString() {
         return "RecoveryFileInfo{" +
-                "id=" + id +
-                ", originFileName='" + originFileName + '\'' +
+                "originFileName='" + originFileName + '\'' +
                 ", originFilePath='" + originFilePath + '\'' +
                 ", originMd5File='" + originMd5File + '\'' +
                 ", originFileInputStream=" + originFileInputStream +

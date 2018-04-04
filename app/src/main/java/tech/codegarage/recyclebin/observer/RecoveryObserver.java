@@ -7,7 +7,6 @@ import android.os.FileObserver;
 import android.util.Log;
 
 import com.reversecoder.library.util.AllSettingsManager;
-import com.reversecoder.library.util.AppUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,8 +18,8 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 
-import tech.codegarage.recyclebin.model.RecoveryFileInfo;
-import tech.codegarage.recyclebin.model.Tag;
+import tech.codegarage.recyclebin.model.realm.RecoveryFileInfo;
+import tech.codegarage.recyclebin.model.realm.Tag;
 import tech.codegarage.recyclebin.model.UpdateCopyingProgress;
 import tech.codegarage.recyclebin.model.UpdateScanningProgress;
 import tech.codegarage.recyclebin.util.FileManager;
@@ -288,9 +287,9 @@ public class RecoveryObserver extends FileObserver {
                 Log.d(TAG, e.getMessage());
                 try {
                     byte[] buffer = new byte[mRecoveryFileInfo.getOriginFileLength() % BUFFER_SIZE];
-                    int byteread = mRecoveryFileInfo.getOriginFileInputStream().read(buffer);
-                    if (byteread != -1 && fs != null) {
-                        fs.write(buffer, 0, byteread);
+                    int byteRead = mRecoveryFileInfo.getOriginFileInputStream().read(buffer);
+                    if (byteRead != -1 && fs != null) {
+                        fs.write(buffer, 0, byteRead);
                     }
                 } catch (Exception e1) {
                     e1.printStackTrace();

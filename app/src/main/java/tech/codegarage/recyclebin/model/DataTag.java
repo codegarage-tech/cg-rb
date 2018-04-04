@@ -2,6 +2,8 @@ package tech.codegarage.recyclebin.model;
 
 import java.util.ArrayList;
 
+import tech.codegarage.recyclebin.model.realm.Tag;
+
 /**
  * @author Md. Rashadul Alam
  * Email: rashed.droid@gmail.com
